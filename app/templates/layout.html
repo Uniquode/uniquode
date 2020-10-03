@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body_class %}2-column{% endblock %}
+{% block navigation-left %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-2">
+    {% include 'partials/_navigation.html' %}
+    </div>
+    <div class="col-sm-12 col-md-10">
+{% endblock navigation-left %}
+
+{% block navigation-right %}
+    </div>
+  </div>
+</div>
+{% endblock navigation-right %}

@@ -33,9 +33,20 @@
   {% block header %}
     {% include 'partials/_header.html' %}
   {% endblock header %}
-  {% block navigation-left %}{% endblock navigation-left %}
+  {% block navigation-left %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+      {% include 'partials/_navigation.html' %}
+      </div>
+      <div class="col-sm-12">
+  {% endblock navigation-left %}
   {% block content %}{% endblock content %}
-  {% block navigation-right %}{% endblock navigation-right %}
+  {% block navigation-right %}
+      </div>
+    </div>
+  </div>
+  {% endblock navigation-right %}
   {% block footer %}
     {% include 'partials/_footer.html' %}
   {% endblock footer %}
