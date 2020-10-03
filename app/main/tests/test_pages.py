@@ -10,7 +10,9 @@ def test_homepage(client):
     templates = (
         main_views.HomeView.template_name,
         'base.html',
+        'layout.html',
         'partials/_header.html',
+        'partials/_navigation.html',
         'partials/_footer.html',
     )
     assert len(response.templates) == len(templates)
@@ -28,7 +30,9 @@ def test_aboutpage(client):
     templates = (
         main_views.AboutView.template_name,
         'base.html',
+        'layout.html',
         'partials/_header.html',
+        'partials/_navigation.html',
         'partials/_footer.html',
     )
     assert len(response.templates) == len(templates)
