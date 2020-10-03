@@ -1,0 +1,50 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+{% block metas %}
+  <meta name="author" content="David Nugent <davidn@uniquode.io>">
+  <meta name="description" content="Uniquode.IO">
+{% endblock metas %}
+{% block favicon %}
+  <link rel="icon" type="image/svg" sizes="107x101" href="{% static 'site/images/uniquode.svg' %}" />
+{% endblock favicon %}
+{% block page_title %}
+  <title>
+    {% if title %}{{ title }}{% else %}No title set{% endif %}
+  </title>
+{% endblock page_title %}
+{% block fonts %}
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+{% endblock fonts %}
+{% block global_styles %}
+  <link rel="stylesheet" href="{% static 'site/css/site.css' %}" type="text/css">
+{% endblock global_styles %}
+{% block app_styles %}{% endblock app_styles %}
+</head>
+
+<body class="{% block body_class %}page{% endblock body_class %}" {% block body_attrs %}{% endblock body_attrs %}>
+{% block content-outer %}
+  {% block content-outer-start %}{% endblock content-outer-start %}
+  {% block navigation-top %}{% endblock navigation-top %}
+  {% block header %}
+    {% include 'partials/_header.html' %}
+  {% endblock header %}
+  {% block navigation-left %}{% endblock navigation-left %}
+  {% block content %}{% endblock content %}
+  {% block navigation-right %}{% endblock navigation-right %}
+  {% block footer %}
+    {% include 'partials/_footer.html' %}
+  {% endblock footer %}
+  {% block content-outer-end %}{% endblock content-outer-end %}
+{% endblock content-outer %}
+{% block global_scripts %}
+{% endblock global_scripts %}
+{% block scripts %}
+{#  <script defer src="{% static 'js/site.js' %}" type="text/javascript"></script>#}
+{% endblock scripts %}
+</body>
+</html>

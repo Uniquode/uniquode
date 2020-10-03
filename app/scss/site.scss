@@ -1,0 +1,24 @@
+$fore-color: midnightblue;
+@import "mini.css/src/flavors/mini-default";
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Noto Sans JP", Hevetica, serif;
+  font-weight: bold;
+}
+
+header, footer {
+  box-shadow: 2px 2px darkgrey;
+}
+
+.logo {
+  img {
+    width: 45px;
+    height: auto;
+  }
+  line-height: 2;
+  font-family: "Noto Sans JP", Hevetica, serif;
+  font-weight: bold;
+  color: midnightblue;
+  vertical-align: top;
+}
+

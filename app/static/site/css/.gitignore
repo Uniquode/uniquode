@@ -1,0 +1,4 @@
+# this directory contains css files generated via scss compliler
+# do not version control this output
+*.css
+*.css.map
