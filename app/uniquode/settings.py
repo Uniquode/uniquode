@@ -4,11 +4,11 @@ import cbs
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.contrib import messages
+
 APP_DIR = Path(__file__).resolve().parent
 BASE_DIR = APP_DIR.parent
 TOP_DIR = BASE_DIR.parent
-
-APP_NAME = 'uniquode'
 
 
 class Env:
@@ -38,7 +38,7 @@ class Env:
 env = Env()
 MODE = env.get('DJANGO_MODE', 'dev').title()
 
-# although they will be overwridden these allow pycharm to resolve {% static %}
+# although they will be overriding these allow pycharm to resolve {% static %}
 STATICFILES_DIRS = [  # where static files are found
     BASE_DIR / 'static',
 ]
@@ -46,6 +46,10 @@ STATICFILES_FINDERS = [
     'npm.finders.NpmFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+INSTALLED_APPS = [
+    'main',
+    'sitetree',
 ]
 
 
@@ -55,9 +59,7 @@ class BaseSettings:
     ALLOWED_HOSTS = []
 
     # Application definition
-    INSTALLED_APPS = [
-        'main',
-
+    INSTALLED_APPS = INSTALLED_APPS + [
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -79,7 +81,7 @@ class BaseSettings:
         'django.middleware.cache.FetchFromCacheMiddleware',     # must be last
     ]
 
-    ROOT_URLCONF = f'{APP_NAME}.urls'
+    ROOT_URLCONF = f'uniquode.urls'
 
     TEMPLATES = [
         {
@@ -99,8 +101,8 @@ class BaseSettings:
         },
     ]
 
-    WSGI_APPLICATION = f'{APP_NAME}.wsgi.application'
-    ASGI_APPLICATION = f'{APP_NAME}.asgi:application'
+    WSGI_APPLICATION = 'uniquode.wsgi.application'
+    ASGI_APPLICATION = 'uniquode.asgi:application'
 
     # Database
     DATABASES = {
@@ -165,8 +167,26 @@ class BaseSettings:
     STATIC_ROOT = TOP_DIR / 'static'        # where static files are collected
     NPM_ROOT_PATH = BASE_DIR
     NPM_FILE_PATTERNS = {
-        'mini.css': ['']
+        'mini.css': [''],
+        '@fortawesome/fontawesome-free': [
+            'css/*.css',
+            'webfonts/*',
+        ],
     }
+
+    # support authentication via username or email
+    AUTHENTICATION_BACKENDS = [
+        'uniquode.auth.EmailOrUsernameAuthBackend',
+    ]
+
+    MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-info',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+    }
+
 
 class DevSettings(BaseSettings):
     pass

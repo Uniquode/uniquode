@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
-{% block body_class %}2-column{% endblock %}
+{% block body_class %}columns-2{% endblock %}
+
+{% block header-end %}
+  {% if messages %}
+    <div class="row">
+      <div class="col-sm-12 col-md-offset-1 col-md-10">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endblock header-end %}
+
 {% block navigation-left %}
 <div class="container">
   <div class="row">
-    <div class="col-sm-12 col-md-2">
+    <div class="col-sm-12 col-md-2 column-left">
     {% include 'partials/_navigation.html' %}
     </div>
-    <div class="col-sm-12 col-md-10">
+    <div class="col-sm-12 col-md-9 column-right">
+      <div class="container">
 {% endblock navigation-left %}
 
 {% block navigation-right %}
+      </div>
     </div>
   </div>
 </div>

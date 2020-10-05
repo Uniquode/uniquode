@@ -1,5 +1,4 @@
 import os
-import sys
 import pytest
 from django.db import connections
 
@@ -8,10 +7,11 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 DATABASE_DEFAULT = 'uniquode'
 DATABASE_TEST = 'uniquode_test'
+os.environ['DJANGO_MODE'] = 'test'
 
 
-def run_sql(sql):
-    conn = psycopg2.connect(os.environ['DJANGO_DATABASE_URL'])
+def run_sql(sql, var='DJANGO_DATABASE_URL'):
+    conn = psycopg2.connect(os.environ[var])
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cur = conn.cursor()
     cur.execute(sql)
@@ -21,6 +21,11 @@ def run_sql(sql):
 @pytest.yield_fixture(scope='session')
 def django_db_setup():
     from django.conf import settings
+
+    # override default url so we can terminate sessions as sa
+    run_sql("SELECT pg_terminate_backend(pid) "
+            "FROM postgres.pg_catalog.pg_stat_activity "
+            f"WHERE datname='{DATABASE_DEFAULT}'", var='DJANGO_POSTGRES_URL')
 
     run_sql(f'DROP DATABASE IF EXISTS {DATABASE_TEST}')
     run_sql(f'CREATE DATABASE {DATABASE_TEST} TEMPLATE {DATABASE_DEFAULT}')
@@ -34,5 +39,3 @@ def django_db_setup():
 
     run_sql(f'DROP DATABASE {DATABASE_TEST}')
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'tests', 'helpers'))
-os.environ['DJANGO_MODE'] = 'test'

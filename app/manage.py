@@ -2,10 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import dotenv
+from utils import env
+
 
 def main():
-    dotenv.load_dotenv(os.environ.get('ENV', '../.env'))
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'uniquode.settings')
     try:
@@ -20,4 +20,5 @@ def main():
 
 
 if __name__ == '__main__':
+    env.load()
     main()

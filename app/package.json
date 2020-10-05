@@ -25,6 +25,7 @@
   "repository": "github:Uniquode/uniquode",
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.0",
     "mini.css": "^3.0.1"
   },
   "devDependencies": {},
