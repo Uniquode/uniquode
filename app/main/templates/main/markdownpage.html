@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% load md tz %}
+{% block content %}
+  {% if pagemodel %}
+    {% timezone 'Australia/Melbourne' %}
+    <div class="row">
+      <div class="col md-content">
+        {{ pagemodel.content | markdown | safe }}
+      </div>
+    </div>
+    <div class="row meta-info flex">
+      <div class="col-sm-12 col-md-6 meta-author flex-end">
+        <p>Author: <strong>{{ pagemodel.created_by.first_name }} {{ pagemodel.created_by.last_name }}</strong></p>
+        <p><small><em>Created: {{ pagemodel.dt_created }}</em></small></p>
+      </div>
+      <div class="col-sm-12 col-md-6 meta-created flex-end">
+        {% if pagemodel.dt_created != pagemodel.dt_modified %}
+          <p><small><em>Last Modified: {{ pagemodel.dt_modified }}</em></small></p>
+        {% endif %}
+      </div>
+    </div>
+    {% if view.commento %}
+      <script defer src="https://cdn.commento.io/js/commento.js"></script>
+      <div class="col-sm-12" id="commento">
+      </div>
+      <div ></div>
+    {% endif %}
+    {% endtimezone %}
+  {% endif %}
+{% endblock content %}

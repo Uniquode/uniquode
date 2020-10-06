@@ -6,3 +6,5 @@ django-redis~=4.12.1
 django-sass~=1.0.0
 django-npm~=1.0.0
 django-sitetree~=1.15.2
+django-markdownx~=3.0.1
+django-simple-history~=2.11.0

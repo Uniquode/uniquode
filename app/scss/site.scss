@@ -1,31 +1,88 @@
 $fore-color: midnightblue;
 @import "mini.css/src/flavors/mini-default";
 
+$special-font-family: "Noto Sans JP", Hevetica, serif;
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Noto Sans JP", Hevetica, serif;
+  font-family: $special-font-family;
   font-weight: bold;
 }
 
-nav {
+nav.navbar {
   border: none;
+  font-family: $special-font-family;
+  //font-size: 1.1rem;
   * {
-    padding: 5px 0;
-    margin: 0;
+    padding: 0 0.25rem;
   }
   ul {
+    font: inherit;
     list-style: none;
+    padding: 0 0.25rem 0 0;
+    margin-left: 0.25rem;
     li a {
-      padding-left: 5px;
+      margin: 0.25rem 0;
     }
   }
 }
 
+nav.breadcrumbs {
+  border: none;
+  font-family: $special-font-family;
+  //font-size: 1.1rem;
+  * {
+    padding: 0;
+    margin: 0;
+    font: inherit;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      display: inline-block;
+      padding-right: 0.25rem;
+      :not(a) {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.md-content {
+  img {
+    border-radius: 0.5em;
+    box-shadow: 4px 4px 6px lightgray;
+  }
+}
+
+.meta-info {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  line-height: 1;
+  background-color: lightgoldenrodyellow;
+  p {
+    margin: 0;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-end {
+  align-self: flex-end
+}
+
 header {
-  box-shadow: 2px 2px darkgrey;
+  margin-top: 0.2rem;
+  box-shadow: 0.2rem 0 0.4rem darkgrey;
+  min-height: calc(2.5 * var(#{$universal-padding-var}));
 }
 
 footer {
-  box-shadow: -2px -2px darkgrey;
+  margin-bottom: 0.2rem;
+  box-shadow: 0.2rem 0 0.4rem darkgrey;
+  min-height: calc(2.5 * var(#{$universal-padding-var}));
 }
 
 .logo {
@@ -157,3 +214,4 @@ form label.label-above {
 .alert-dark .alert-link {
   color: #040505;
 }
+

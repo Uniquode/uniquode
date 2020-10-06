@@ -38,4 +38,3 @@ def django_db_setup():
         connection.close()
 
     run_sql(f'DROP DATABASE {DATABASE_TEST}')
-

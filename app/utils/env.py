@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from string import Template
 from typing import Union
 
 __all__ = (
@@ -31,6 +32,7 @@ def load(env_file: str = None, search_path: Union[list, str] = None, overwrite=F
         search_path.reverse()
 
     processed = []
+    environ = {k: v for k, v in os.environ.items()}
 
     for directory in search_path:
         env_path = os.path.join(directory, env_file)
@@ -43,7 +45,21 @@ def load(env_file: str = None, search_path: Union[list, str] = None, overwrite=F
                         if len(parts) == 2:
                             key, val = parts
                             if overwrite or os.environ.get(key) is None:
-                                os.environ[key] = val
+                                environ[key] = val
                 processed.append(env_path)
+
+    # post-process the variables changed for ${substitutions}
+    for env_key in list(environ.keys()):
+        env_val = environ[env_key]
+        if all(v in env_val for v in ('${', '}')):      # looks like template
+            val = Template(env_val).safe_substitute(environ)
+            if val != env_val:  # prefer not to change
+                environ[env_key] = val
+
+    # back-populate changed variables to the environment
+    for env_key in list(environ.keys()):
+        env_val = environ[env_key]
+        if env_val != os.environ.get(env_key):
+            os.environ[env_key] = env_val
 
     return processed

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from http import client as httpstatus
+
+import pytest
+from django.contrib.auth import get_user_model
+
 from main import views as main_views
 
 def standard_templates(logged_in=False):
@@ -11,10 +15,17 @@ def standard_templates(logged_in=False):
         'partials/_navigation.html',
         'sitetree/menu.html',
         'sitetree/menu.html',
+        'partials/_breadcrumbs.html',
+        'sitetree/breadcrumbs.html',
         'partials/_footer.html',
     )
 
 def template_viewtest(client, url, view, redirect=False, logged_in=False):
+    if logged_in:
+        user = get_user_model().objects.create(username='test', email='test@example.com')
+        user.set_password('testtest')
+        user.save()
+        client.login(username='test', password='testtest')
     if redirect:
         response = client.get(url)
         assert response.status_code == httpstatus.MOVED_PERMANENTLY
@@ -29,25 +40,31 @@ def template_viewtest(client, url, view, redirect=False, logged_in=False):
         assert template.name in templates
 
 
+@pytest.mark.django_db
 def test_homepage(client):
     template_viewtest(client, url='/', view=main_views.HomeView)
 
-def test_homepage_user(admin_client):
-    admin_client.login(username='test', password='testtest')
-    template_viewtest(admin_client, url='/', view=main_views.HomeView, logged_in=True)
+
+@pytest.mark.django_db
+def test_homepage_user(client):
+    template_viewtest(client, url='/', view=main_views.HomeView, logged_in=True)
 
 
+@pytest.mark.django_db
 def test_aboutpage(client):
     template_viewtest(client, url='/about', view=main_views.AboutView, redirect=True)
 
 
-def test_aboutpage_user(admin_client):
-    template_viewtest(admin_client, url='/about', view=main_views.AboutView, redirect=True, logged_in=True)
+@pytest.mark.django_db
+def test_aboutpage_user(client):
+    template_viewtest(client, url='/about', view=main_views.AboutView, redirect=True, logged_in=True)
 
 
+@pytest.mark.django_db
 def test_contactpage(client):
     template_viewtest(client, url='/contact', view=main_views.ContactView, redirect=True)
 
 
-def test_contactpage_user(admin_client):
-    template_viewtest(admin_client, url='/contact', view=main_views.ContactView, redirect=True, logged_in=True)
+@pytest.mark.django_db
+def test_contactpage_user(client):
+    template_viewtest(client, url='/contact', view=main_views.ContactView, redirect=True, logged_in=True)

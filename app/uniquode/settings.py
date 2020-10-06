@@ -47,9 +47,15 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+MIDDLEWARE = [
+    'simple_history.middleware.HistoryRequestMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',  # must be last
+]
 INSTALLED_APPS = [
     'main',
     'sitetree',
+    'markdownx',
+    'simple_history',
 ]
 
 
@@ -77,9 +83,7 @@ class BaseSettings:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-        'django.middleware.cache.FetchFromCacheMiddleware',     # must be last
-    ]
+   ] + MIDDLEWARE
 
     ROOT_URLCONF = f'uniquode.urls'
 

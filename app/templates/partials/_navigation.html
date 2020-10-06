@@ -1,5 +1,5 @@
-{% load static sitetree %}
+{% load sitetree %}
 
-<nav>
-{% sitetree_menu from "main" include "trunk" %}
+<nav class="navbar">
+{% sitetree_menu from view.sitetree include 'trunk' %}
 </nav>

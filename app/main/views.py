@@ -7,7 +7,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, FormView
+from sitetree.sitetreeapp import get_sitetree
 
+from .models import PageModel
 
 UserModel = get_user_model()
 
@@ -20,22 +22,53 @@ __all__ = (
 )
 
 
-class HomeView(TemplateView):
-    template_name = 'main/index.html'
+class SiteTreeMixin:
+    default_sitetree = "main"       # default
+
+    @property
+    def sitetree(self):
+        return self.default_sitetree
+
+    def current_sitetree(self, context):
+        sitetree = get_sitetree()
+        # noinspection PyUnresolvedReferences
+        context['request'] = self.request
+        sitetree.init_tree(self.sitetree, context)
+        return sitetree.get_tree_current_item(self.sitetree)
+
+    def get_pagemodel(self, context):
+        item = self.current_sitetree(context)
+        if item:
+            try:
+                return PageModel.objects.get(label__exact=item.url)
+            except PageModel.DoesNotExist:
+                pass
+        return None
+
+
+class MarkdownPage(TemplateView, SiteTreeMixin):
+    template_name = 'main/markdownpage.html'
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['pagemodel'] = self.get_pagemodel(context)
+        return context
 
 
-class AboutView(TemplateView):
-    template_name = 'main/about.html'
+class HomeView(MarkdownPage):
+    pass
 
 
-class ContactView(TemplateView):
-    template_name = 'main/contact.html'
+class AboutView(MarkdownPage):
+    pass
 
 
-class PrevPageView:
+class ContactView(MarkdownPage):
+    commento = True
+    pass
+
+
+class PrevPageMixin:
     success_url = reverse_lazy('home')
 
     def get_success_url(self):
@@ -51,7 +84,7 @@ class PrevPageView:
         return HttpResponseRedirect(self.success_url)
 
 
-class LoginView(FormView, PrevPageView):
+class LoginView(FormView, PrevPageMixin):
     http_method_names = ['post', 'put']
     form_class = AuthenticationForm
 
@@ -66,7 +99,7 @@ class LoginView(FormView, PrevPageView):
         return self.previous_page(request)
 
 
-class LogoutView(View, PrevPageView):
+class LogoutView(View, PrevPageMixin):
     http_method_names = ['get']
 
     def get(self, request: http.HttpRequest, *args, **kwargs):
