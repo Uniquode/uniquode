@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  app:
+    image: ${APP_NAME}:latest
+    build:
+      context: .
+      args:
+        APP_NAME: ${APP_NAME}
+        APP_DIR: ${APP_DIR}
+        APP_ROOT: ${APP_ROOT}
+        DJANGO_MODE: ${DJANGO_MODE}
+        DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+        DJANGO_REDIS_URL: ${DJANGO_REDIS_URL}
+        DJANGO_DATABASE_URL: ${DJANGO_DATABASE_URL}
+        EMAIL_HOST: ${EMAIL_HOST}
+        EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+        EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+    volumes:
+      - ${PWD}/static:${APP_ROOT}/static
+      - ${PWD}/logs:${APP_ROOT}//logs
+    expose:
+      - "8000"
+    ports:
+      - "127.0.0.1:${APP_PORT}:8000"
+    restart: always
+    networks:
+        - internal_net
+
+volumes:
+  uniquode-static:
+
+networks:
+  internal_net:

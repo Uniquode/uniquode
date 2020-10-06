@@ -6,7 +6,7 @@ from simple_history import register
 from markdownx.models import MarkdownxField
 
 
-register(get_user_model())
+register(get_user_model(), app='main')
 
 
 def get_sentinel_user():

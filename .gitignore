@@ -72,6 +72,10 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# MacOS stuff
+.DS_Store
+.localized
+
 # Local
 # static collected
 /static/

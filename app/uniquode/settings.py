@@ -205,7 +205,14 @@ class BetaSettings(BaseSettings):
 
 
 class ProdSettings(BetaSettings):
-    pass
+    ALLOWED_HOSTS = [
+        'localhost',
+        '127.0.0.1',
+        '::1',
+        '172.105.169.83',
+        'uniquode.io',
+        'www.uniquode.io',
+    ]
 
 
 cbs.apply(f'{MODE}Settings', globals())
