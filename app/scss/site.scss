@@ -58,10 +58,11 @@ nav.breadcrumbs {
 .meta-info {
   margin: 1rem 0;
   padding: 0.5rem;
-  line-height: 1;
-  background-color: lightgoldenrodyellow;
+  line-height: 1 !important;
+  background-color: aliceblue;
   p {
     margin: 0;
+    line-height: 1;
   }
 }
 
