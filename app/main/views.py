@@ -46,7 +46,11 @@ class SiteTreeMixin:
         return None
 
 
-class MarkdownPage(TemplateView, SiteTreeMixin):
+class TemplateSitetreeView(TemplateView, SiteTreeMixin):
+    pass
+
+
+class MarkdownPage(TemplateSitetreeView):
     template_name = 'main/markdownpage.html'
 
     def get_context_data(self, **kwargs):
@@ -65,8 +69,18 @@ class AboutView(MarkdownPage):
 
 class ContactView(MarkdownPage):
     commento = True
+
+
+class UnderConstructionView(TemplateSitetreeView):
+    template_name = 'main/under-construction.html'
+
+
+class ArticlesView(UnderConstructionView):
     pass
 
+
+class NewsView(UnderConstructionView):
+    pass
 
 class PrevPageMixin:
     success_url = reverse_lazy('home')

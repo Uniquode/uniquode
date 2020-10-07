@@ -8,6 +8,8 @@ sitetrees = (
             item('About', 'about', in_menu=True, in_sitetree=True, url_as_pattern=True),
             item('Contact', 'contact', in_menu=True, in_sitetree=True, url_as_pattern=True),
         ]),
+        item('Articles', 'articles', in_menu=True, in_sitetree=True, url_as_pattern=True),
+        item('News', 'news', in_menu=True, in_sitetree=True, url_as_pattern=True),
         # item('Articles', 'articles-listing', children=[
         #     item('{{ article.title }}', 'articles-details', in_menu=False, in_sitetree=False),
         #     item('Add article', 'article-add', access_by_perms=['main.allow_article_add']),

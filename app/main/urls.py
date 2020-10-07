@@ -9,5 +9,7 @@ urlpatterns = [
     path('contact/', main_views.ContactView.as_view(), name='contact'),
     path('login/', main_views.LoginView.as_view(), name='signin'),
     path('logout/', main_views.LogoutView.as_view(), name='signout'),
+    path('articles/', main_views.ArticlesView.as_view(), name='articles'),
+    path('news/', main_views.NewsView.as_view(), name='news'),
     path('markdownx/', include('markdownx.urls'))
 ]
