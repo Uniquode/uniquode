@@ -83,6 +83,9 @@ class NewsView(UnderConstructionView):
     pass
 
 
+class NewsView(UnderConstructionView):
+    pass
+
 class PrevPageMixin:
     success_url = reverse_lazy('home')
 
