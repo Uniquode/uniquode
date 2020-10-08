@@ -66,6 +66,59 @@ nav.breadcrumbs {
   }
 }
 
+.login-card, .contact-card {
+  padding: 0;
+  label {
+    font-weight: bold;
+  }
+  form {
+    margin: 0;
+    background-color: #e8efef;
+  }
+}
+
+.login-card {
+  max-width: 30vw;
+
+  input[type="text"], input[type="password"] {
+    width: 25vw;
+  }
+}
+
+.contact-card {
+  max-width: 50vw;
+
+  input[type="text"], input[type="email"], textarea {
+    width: 45vw;
+  }
+  textarea {
+    height: 15vh;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .login-card {
+    max-width: 70vw;
+
+    input[type="text"], input[type="password"] {
+      width: 60vw;
+    }
+  }
+
+  .contact-card {
+    max-width: 100vw;
+
+    input[type="text"], input[type="email"], textarea {
+      width: 90vw;
+    }
+    textarea {
+      height: 10vh;
+    }
+  }
+}
+
+
+
 .flex {
   display: flex;
 }

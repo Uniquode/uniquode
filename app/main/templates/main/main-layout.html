@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block extra_fonts %}
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+{% endblock extra_fonts %}
+
+{% block app_styles %}
+  <link rel="stylesheet"
+        href="{% static 'css/codehilite.css' %}" type="text/css">
+{% endblock app_styles %}

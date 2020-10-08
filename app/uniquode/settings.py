@@ -38,7 +38,9 @@ class Env:
 env = Env()
 MODE = env.get('DJANGO_MODE', 'dev').title()
 
-# although they will be overriding these allow pycharm to resolve {% static %}
+# although they will be overridden by classy-settings,
+# laying these out here allows pycharm to correctly resolve {% static %}
+# and support custom static finders and apps.
 STATICFILES_DIRS = [  # where static files are found
     BASE_DIR / 'static',
 ]
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     'sitetree',
     'markdownx',
     'simple_history',
+    'taggit',
 ]
 
 

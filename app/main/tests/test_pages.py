@@ -6,8 +6,11 @@ from django.contrib.auth import get_user_model
 
 from main import views as main_views
 
-def standard_templates(logged_in=False):
-    return (
+def standard_templates(logged_in=False, extras=None):
+    if extras:
+        return extras + standard_templates(logged_in)
+    return [
+        'main/main-layout.html',
         'layout.html',
         'base.html',
         'partials/_header.html',
@@ -18,9 +21,9 @@ def standard_templates(logged_in=False):
         'partials/_breadcrumbs.html',
         'sitetree/breadcrumbs.html',
         'partials/_footer.html',
-    )
+    ]
 
-def template_viewtest(client, url, view, redirect=False, logged_in=False):
+def template_viewtest(client, url, view, redirect=False, logged_in=False, extras=None):
     if logged_in:
         user = get_user_model().objects.create(username='test', email='test@example.com')
         user.set_password('testtest')
@@ -33,7 +36,7 @@ def template_viewtest(client, url, view, redirect=False, logged_in=False):
     response = client.get(url)
     assert response.status_code == httpstatus.OK
     assert view.template_name in response.template_name
-    templates = [view.template_name] + [t for t in standard_templates(logged_in)]
+    templates = [view.template_name] + [t for t in standard_templates(logged_in, extras)]
     # expected set of templates rendered
     assert len(response.templates) == len(templates)
     for template in response.templates:
@@ -60,11 +63,13 @@ def test_aboutpage_user(client):
     template_viewtest(client, url='/about', view=main_views.AboutView, redirect=True, logged_in=True)
 
 
+contact_extras = ['main/partials/_contact.html']
+
 @pytest.mark.django_db
 def test_contactpage(client):
-    template_viewtest(client, url='/contact', view=main_views.ContactView, redirect=True)
+    template_viewtest(client, url='/contact', view=main_views.MessagesView, redirect=True, extras=contact_extras)
 
 
 @pytest.mark.django_db
 def test_contactpage_user(client):
-    template_viewtest(client, url='/contact', view=main_views.ContactView, redirect=True, logged_in=True)
+    template_viewtest(client, url='/contact', view=main_views.MessagesView, redirect=True, logged_in=True, extras=contact_extras)
