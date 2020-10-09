@@ -1,7 +1,13 @@
 {% load static %}
 <footer>
   <span class="powered-by">
-    Powered by Django &copy; 2020 David L Nugent
+    <span>Powered by</span>
+  </span>
+  <span class="python-django">
+    <img src="{% static 'images/python-django.png' %}" alt="Python/Django"  width="auto" height="auto">
+  </span>
+  <span class="copyright">
+    <strong>Uniquode &copy; 2020, David L Nugent</strong>
   </span>
 {% if request.user.is_authenticated and request.user.is_staff %}
   <span class="page-edit">

@@ -52,6 +52,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+MEDIA_ROOT = BASE_DIR / 'media'
 MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',  # must be last

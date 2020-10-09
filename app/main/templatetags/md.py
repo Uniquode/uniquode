@@ -2,6 +2,8 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 import markdown as md
+from mdx_emoticons import EmoticonsExtension
+
 
 register = template.Library()
 
@@ -37,6 +39,8 @@ markdown_extensions = [
     'markdown.extensions.extra',        # see above
     'markdown.extensions.codehilite',   # syntax highlighting using pygments
     'markdown.extensions.toc',          # table of contents [TOC]
+    EmoticonsExtension(base_url='/media/emoticons/', file_extension='gif')
+
 ]
 
 markdown_extension_configs = {
@@ -48,4 +52,4 @@ markdown_extension_configs = {
 def markdown(value):
     return md.markdown(value,
                        extensions=markdown_extensions,
-                       extension_config=markdown_extension_configs)
+                       extension_configs=markdown_extension_configs)
