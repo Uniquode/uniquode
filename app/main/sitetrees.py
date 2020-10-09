@@ -8,6 +8,7 @@ sitetrees = (
             item('About', 'about', in_menu=True, in_sitetree=True, url_as_pattern=True),
             item('Contact', 'contact', in_menu=True, in_sitetree=True, url_as_pattern=True),
         ]),
+#       item('Test', 'test', in_menu=True, in_sitetree=True, url_as_pattern=True, access_loggedin=True),
         item('Articles', 'articles', in_menu=True, in_sitetree=True, url_as_pattern=True),
         item('News', 'news', in_menu=True, in_sitetree=True, url_as_pattern=True),
         # item('Articles', 'articles-listing', children=[

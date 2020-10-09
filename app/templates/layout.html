@@ -14,11 +14,12 @@
 {% block fonts %}
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 {% endblock fonts %}
+{% block extra_fonts %}{% endblock extra_fonts %}
 
 {% block global_styles %}
-  <link rel="stylesheet" href="{% static 'site/css/site.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static '@fortawesome/fontawesome-free/css/fontawesome.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static '@fortawesome/fontawesome-free/css/solid.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'site/css/site.css' %}" type="text/css">
 {% endblock global_styles %}
 
 {# heaader block - stop of page incl logo, followed by messages #}
