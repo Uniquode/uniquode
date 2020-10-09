@@ -32,7 +32,7 @@ ENV DJANGO_REDIS_URL=${DJANGO_REDIS_URL} DJANGO_DATABASE_URL=${DJANGO_DATABASE_U
 
 # install runtime requirements and dev, but remove dev before creating this layer
 
-RUN apk add libpq libjpeg openjpeg tiff freetype libffi pcre libressl libwebp lcms2 ${DEVLIBS} && \
+RUN apk add libpq libjpeg openjpeg tiff freetype libffi pcre libressl libwebp lcms2 ${DEVLIBS} git && \
     pip install -q -U pip setuptools pip && \
     pip install -r /tmp/requirements.txt && \
     pip install gunicorn && \
