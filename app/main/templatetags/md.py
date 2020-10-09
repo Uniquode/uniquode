@@ -3,7 +3,6 @@ from django import template
 from django.conf import settings
 from django.template.defaultfilters import stringfilter
 import markdown as md
-from mdx_emoticons import EmoticonsExtension
 
 
 register = template.Library()
