@@ -64,7 +64,7 @@ class SiteTreeMixin:
         sitetree.init_tree(self.sitetree, context)
         return sitetree.get_tree_current_item(self.sitetree)
 
-    def get_pagemodel(self, context):
+    def get_page(self, context):
         item = self.current_sitetree(context)
         if item:
             try:
@@ -83,7 +83,7 @@ class MarkdownPage(TemplateSitetreeView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pagemodel'] = self.get_pagemodel(context)
+        context['page'] = self.get_page(context)
         return context
 
 

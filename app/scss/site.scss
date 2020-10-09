@@ -8,6 +8,47 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
+// boostrap-like alerts
+.alert-dismissible {
+  padding-right: 3.5rem;
+  .close {
+    position: absolute;
+    margin: 0.25rem;
+    padding: 0.25rem;
+    top: 0;
+    right: 0;
+    color: inherit;
+  }
+}
+.alert {
+  position: relative;
+  padding: 0.5rem 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.alert-heading {color: inherit; }
+.alert-link { font-weight: 700; }
+.alert-primary { color: #073984; background-color: #cfe2ff; border-color: #bbd6fe; }
+.alert-primary .alert-link { color: #042454; }
+.alert-secondary { color: #383d41; background-color: #e2e3e5; border-color: #d6d8db; }
+.alert-secondary .alert-link { color: #202326; }
+.alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+.alert-success .alert-link { color: #0b2e13; }
+.alert-info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
+.alert-info .alert-link { color: #062c33; }
+.alert-warning { color: #856404; background-color: #fff3cd; border-color: #ffeeba; }
+.alert-warning .alert-link { color: #533f03; }
+.alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;}
+.alert-danger .alert-link { color: #491217;}
+.alert-light { color: #818182; background-color: #fefefe; border-color: #fdfdfe; }
+.alert-light .alert-link { color: #686868;}
+.alert-dark { color: #1b1e21; background-color: #d6d8d9; border-color: #c6c8ca;}
+.alert-dark .alert-link { color: #040505;}
+
+// navigation blocks
+
 nav.navbar {
   border: none;
   font-family: $special-font-family;
@@ -47,6 +88,8 @@ nav.breadcrumbs {
     }
   }
 }
+
+// markdown content
 
 .md-content {
   img {
@@ -117,8 +160,6 @@ nav.breadcrumbs {
   }
 }
 
-
-
 .flex {
   display: flex;
 }
@@ -128,15 +169,32 @@ nav.breadcrumbs {
 }
 
 header {
-  margin-top: 0.2rem;
-  box-shadow: 0.2rem 0 0.4rem darkgrey;
+  margin: 0.5rem 0 0.25rem 0;
+  box-shadow: $box-shadow-generic;
   min-height: calc(2.5 * var(#{$universal-padding-var}));
 }
 
 footer {
-  margin-bottom: 0.2rem;
-  box-shadow: 0.2rem 0 0.4rem darkgrey;
+  margin: 0.25rem 0 0.5rem 0;
+  box-shadow: $box-shadow-generic;
   min-height: calc(2.5 * var(#{$universal-padding-var}));
+  padding: 0;
+  text-align: center;
+  vertical-align: center;
+  .powered-by {
+    display: inline-block;
+    margin: 1rem;
+    font-size: 75%;
+  }
+  .page-edit {
+    button {
+      background: inherit;
+      margin: 0.2rem 0.1rem 0 0;
+    }
+    a {
+      color: black;
+    }
+  }
 }
 
 .logo {
@@ -155,117 +213,7 @@ form label.label-above {
   display: block;
 }
 
-.sign-in, .sign-out {
+.sign-in, .sign-out, .page-edit {
   float: right;
+  //margin: 0;
 }
-
-// boostrap-like messages
-.alert {
-  position: relative;
-  padding: 0.5rem 0.5rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-}
-
-.alert-heading {
-  color: inherit;
-}
-
-.alert-link {
-  font-weight: 700;
-}
-
-.alert-dismissible {
-  padding-right: 3.5rem;
-  .close {
-    position: absolute;
-    margin: 0.25rem;
-    padding: 0.25rem;
-    top: 0;
-    right: 0;
-    color: inherit;
-  }
-}
-
-.alert-primary {
-  color: #073984;
-  background-color: #cfe2ff;
-  border-color: #bbd6fe;
-}
-
-.alert-primary .alert-link {
-  color: #042454;
-}
-
-.alert-secondary {
-  color: #383d41;
-  background-color: #e2e3e5;
-  border-color: #d6d8db;
-}
-
-.alert-secondary .alert-link {
-  color: #202326;
-}
-
-.alert-success {
-  color: #155724;
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-}
-
-.alert-success .alert-link {
-  color: #0b2e13;
-}
-
-.alert-info {
-  color: #0c5460;
-  background-color: #d1ecf1;
-  border-color: #bee5eb;
-}
-
-.alert-info .alert-link {
-  color: #062c33;
-}
-
-.alert-warning {
-  color: #856404;
-  background-color: #fff3cd;
-  border-color: #ffeeba;
-}
-
-.alert-warning .alert-link {
-  color: #533f03;
-}
-
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
-
-.alert-danger .alert-link {
-  color: #491217;
-}
-
-.alert-light {
-  color: #818182;
-  background-color: #fefefe;
-  border-color: #fdfdfe;
-}
-
-.alert-light .alert-link {
-  color: #686868;
-}
-
-.alert-dark {
-  color: #1b1e21;
-  background-color: #d6d8d9;
-  border-color: #c6c8ca;
-}
-
-.alert-dark .alert-link {
-  color: #040505;
-}
-

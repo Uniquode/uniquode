@@ -12,6 +12,9 @@ TOP_DIR = BASE_DIR.parent
 
 
 class Env:
+    """
+    Convenience wrapper around os.environ
+    """
     def __init__(self):
         import os
         self._env = os.environ
@@ -208,6 +211,7 @@ class BetaSettings(BaseSettings):
 
 
 class ProdSettings(BetaSettings):
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
     ALLOWED_HOSTS = [
         'localhost',
         '127.0.0.1',

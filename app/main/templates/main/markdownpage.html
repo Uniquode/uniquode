@@ -1,7 +1,7 @@
 {% extends 'main/main-layout.html' %}
 {% load md %}
 {% block content %}
-  {% if pagemodel %}{% with pagemodel as p %}
+  {% if page %}{% with page as p %}
     <div class="row">
       <div class="col md-content">
         {{ p.content | markdown | safe }}
