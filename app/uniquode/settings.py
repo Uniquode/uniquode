@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from datetime import datetime
 from pathlib import Path
 import cbs
 import dj_database_url
@@ -197,6 +198,32 @@ class BaseSettings:
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
     }
+
+    MARKDOWNX_MARKDOWN_EXTENSIONS = [
+        'markdown.extensions.extra',        # built in combo
+        'markdown.extensions.codehilite',   # syntax highlighting using pygments
+        'markdown.extensions.meta',
+        'markdown.extensions.toc',          # table of contents [TOC]
+        'markdown_markup_emoji.markup_emoji',
+        'mdx_emoticons',
+    ]
+    MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {
+        'mdx_emoticons': {
+            'base_url': '/media/emoticons/',
+            'file_extension': 'gif'
+        }
+    }
+    MARKDOWNX_URLS_PATH = '/markdownx/markdownify/'
+    MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/'
+    MARKDOWNX_MEDIA_PATH = datetime.now().strftime('media/uploads/%Y_%m/')
+    MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024
+    MARKDOWNX_UPLOAD_CONTENT_TYPES = [
+        'image/jpeg',
+        'image/png',
+        'image/svg+xml',
+        'image/webp',
+    ]
+    MARKDOWNX_SERVER_CALL_LATENCY = 2500
 
 
 class DevSettings(BaseSettings):
