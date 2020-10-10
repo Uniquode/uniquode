@@ -1,19 +1,17 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from markdownx.models import MarkdownxField
 from taggit.managers import TaggableManager
 import simple_history
 import simple_history.models as history_models
+from django.utils.translation import gettext_lazy as _
+from taggit.models import TagBase, CommonGenericTaggedItemBase, TaggedItemBase, GenericUUIDTaggedItemBase, ItemBase
 
-# noinspection PyUnresolvedReferences
 from .components import (
     TimestampModel,
     AuthorModel,
-    UUIDModel,
-    ActivatedModel,
-    get_sentinel_user
+    ActivatedModel
 )
 
 
@@ -32,9 +30,8 @@ class Page(TimestampModel, AuthorModel):
         return self.label
 
 
-class Message(UUIDModel, TimestampModel, AuthorModel):
-    to = models.ForeignKey(settings.AUTH_USER_MODEL,
-                           on_delete=models.SET_NULL,
+class Message(TimestampModel, AuthorModel):
+    to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
                            related_name='+', blank=True, null=True)
     name = models.CharField(_('Name'), max_length=64, blank=True, null=True)
     email = models.EmailField(_('Email'), max_length=64, blank=True, null=True)
@@ -53,17 +50,28 @@ class Message(UUIDModel, TimestampModel, AuthorModel):
 
 
 class Icon(models.Model):
-    name = models.CharField(_('Icon Name'), primary_key=True, max_length=64, blank=False, null=False)
+    name = models.CharField(_('Icon Name'), max_length=64, blank=False, null=False, db_index=True)
     svg = models.TextField(_('SVG'))
+    tags = TaggableManager(_('Tags'))
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
 
 
 class Category(models.Model):
     name = models.CharField(_('Category Name'), max_length=64, blank=False, null=False)
-    svg = models.ForeignKey(Icon, to_field='name', on_delete=models.SET_NULL, related_name='+', null=True)
+    svg = models.ForeignKey(Icon, on_delete=models.SET_NULL, related_name='+', null=True)
     history = history_models.HistoricalRecords(_('History'))
+    tags = TaggableManager(_('Tags'))
+
+    def __str__(self):
+        return self.name
 
 
-class Article(UUIDModel, TimestampModel, AuthorModel, ActivatedModel):
+class Article(TimestampModel, AuthorModel, ActivatedModel):
     title = models.CharField(_('Title'), max_length=255)
     slug = models.SlugField(_('Slug'), max_length=64)
     tags = TaggableManager(_('Tags'))
@@ -71,4 +79,4 @@ class Article(UUIDModel, TimestampModel, AuthorModel, ActivatedModel):
     history = history_models.HistoricalRecords(_('History'))
 
     def __str__(self):
-        return f'{self.title} {self.dt_created} ({self.slug})'
+        return f'{self.title} ({self.slug})'
