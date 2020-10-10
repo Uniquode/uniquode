@@ -2,17 +2,13 @@
 """
 Some useful model building blocks
 """
-import uuid
-
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import UUIDField
 
 __all__ = (
     'TimestampModel',
     'AuthorModel',
-    'UUIDModel',
     'ActivatedModel',
     'get_user_model',
     'get_sentinel_user'
@@ -43,19 +39,12 @@ class AuthorModel(models.Model):
         abstract = True
 
 
-class UUIDModel(models.Model):
-    id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
-    class Meta:
-        abstract = True
-
-
 class ActivatedModel(models.Model):
     is_active = models.BooleanField(default=False)
 
     def activate(self, state=True, save=True):
         if self.is_active == state:
-            raise ValueError(f'{self.__class__.__name__} Already {"activated" if state else "inactivated"}')
+            raise ValueError(f'{self.__class__.__name__} ' + f'Already {"activated" if state else "inactivated"}')
         self.is_active = state
         if save:
             self.save()
@@ -65,3 +54,4 @@ class ActivatedModel(models.Model):
 
     class Meta:
         abstract = True
+
