@@ -64,6 +64,9 @@ INSTALLED_APPS = [
     'markdownx',
     'simple_history',
     'taggit',
+    'taggit_helpers',
+    'taggit_labels',
+    'taggit_anywhere',
 ]
 
 
@@ -224,6 +227,7 @@ class BaseSettings:
         'image/webp',
     ]
     MARKDOWNX_SERVER_CALL_LATENCY = 2500
+
 
 
 class DevSettings(BaseSettings):
