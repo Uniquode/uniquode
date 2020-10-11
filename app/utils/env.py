@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from string import Template
-from typing import Union
+from typing import Union, List, Dict
 
 __all__ = (
     'load',
@@ -12,7 +12,53 @@ DEFAULT_DOTENV = '.env'
 DEFAULT_ENVPATH = ('.', '..', '../..')
 
 
-def load(env_file: str = None, search_path: Union[list, str] = None, overwrite=False) -> list:
+def _env_files(env_file, search_path):
+    """ expand env_file with full search path """
+    processed = []
+    for directory in search_path:
+        env_path = os.path.join(directory, env_file)
+        if os.access(env_path, os.R_OK):
+            processed.append(env_path)
+    return processed
+
+
+def _process_env(env_file: str, search_path: List[str], environ: dict, overwrite: bool) -> None:
+    """ search for any env_files in given dir list and populate environ dict """
+
+    def process_line(string):
+        """ process a single line """
+        parts = string.split('=', 1)
+        if len(parts) == 2:
+            key, val = parts
+            if overwrite or environ.get(key) is None:
+                environ[key] = val
+
+    for env_path in _env_files(env_file, search_path):
+        with open(env_path, 'r') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if line and line[0] != '#':
+                    process_line(line)
+
+
+def _post_process(environ):
+    """ post-process the variables using ${substitutions} """
+    for env_key, env_val in environ.items():
+        if all(v in env_val for v in ('${', '}')):  # looks like template
+            # ignore anything that does not resolve, don't throw an exception!
+            val = Template(env_val).safe_substitute(environ)
+            if val != env_val:      # don't update unless we need to
+                environ[env_key] = val
+
+
+def _update_os_env(environ: Dict) -> None:
+    """ back-populate changed variables to the environment """
+    for env_key, env_val in environ.items():
+        if env_val != os.environ.get(env_key):
+            os.environ[env_key] = env_val
+
+
+def load(env_file: str = None, search_path: Union[None, List[str], str] = None, overwrite: bool = False) -> None:
     """
     Loads one or more .env files with optional nesting, updating os.environ
     :param env_file: name of the
@@ -31,35 +77,8 @@ def load(env_file: str = None, search_path: Union[list, str] = None, overwrite=F
     if overwrite:
         search_path.reverse()
 
-    processed = []
+    # initially populate from os.environ
     environ = {k: v for k, v in os.environ.items()}
-
-    for directory in search_path:
-        env_path = os.path.join(directory, env_file)
-        if os.access(env_path, os.R_OK):
-            with open(env_path, 'r') as f:
-                for line in f.readlines():
-                    line = line.strip()
-                    if line and line[0] != '#':
-                        parts = line.split('=', 1)
-                        if len(parts) == 2:
-                            key, val = parts
-                            if overwrite or os.environ.get(key) is None:
-                                environ[key] = val
-                processed.append(env_path)
-
-    # post-process the variables changed for ${substitutions}
-    for env_key in list(environ.keys()):
-        env_val = environ[env_key]
-        if all(v in env_val for v in ('${', '}')):      # looks like template
-            val = Template(env_val).safe_substitute(environ)
-            if val != env_val:  # prefer not to change
-                environ[env_key] = val
-
-    # back-populate changed variables to the environment
-    for env_key in list(environ.keys()):
-        env_val = environ[env_key]
-        if env_val != os.environ.get(env_key):
-            os.environ[env_key] = env_val
-
-    return processed
+    _process_env(env_file, search_path, environ, overwrite)
+    _post_process(environ)
+    _update_os_env(environ)
