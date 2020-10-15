@@ -7,37 +7,11 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.contrib import messages
 
+from utils.env_wrapper import Env
+
 APP_DIR = Path(__file__).resolve().parent
 BASE_DIR = APP_DIR.parent
 TOP_DIR = BASE_DIR.parent
-
-
-class Env:
-    """
-    Convenience wrapper around os.environ
-    """
-    def __init__(self):
-        import os
-        self._env = os.environ
-
-    def get(self, var, default=None):
-        return self._env.get(var, default)
-
-    def set(self, var, value=None):
-        if value is None:
-            if self.get(var) is not None:
-                del self._env[var]
-        else:
-            self._env[var] = value
-
-    def int(self, var, default=None):
-        val = self.get(var, default)
-        return int(val) if val is not None and val.isdigit() else None
-
-    def bool(self, var, default=None):
-        val = self.get(var, default)
-        return True if val and any([val.startswith(v) for v in ('T', 't', '1', 'on', 'Y', 'y', 'ena')]) else False
-
 
 env = Env()
 MODE = env.get('DJANGO_MODE', 'dev').title()
@@ -89,14 +63,13 @@ class BaseSettings:
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   ] + MIDDLEWARE
+    ] + MIDDLEWARE
 
-    ROOT_URLCONF = f'uniquode.urls'
+    ROOT_URLCONF = 'uniquode.urls'
 
     TEMPLATES = [
         {
@@ -229,7 +202,6 @@ class BaseSettings:
     MARKDOWNX_SERVER_CALL_LATENCY = 2500
 
 
-
 class DevSettings(BaseSettings):
     pass
 
@@ -239,10 +211,6 @@ class TestSettings(DevSettings):
 
 
 class BetaSettings(BaseSettings):
-    pass
-
-
-class ProdSettings(BetaSettings):
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
     ALLOWED_HOSTS = [
         'localhost',
@@ -252,6 +220,10 @@ class ProdSettings(BetaSettings):
         'uniquode.io',
         'www.uniquode.io',
     ]
+
+
+class ProdSettings(BetaSettings):
+    pass
 
 
 cbs.apply(f'{MODE}Settings', globals())
