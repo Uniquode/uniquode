@@ -1,0 +1,19 @@
+
+.contact-card {
+  max-width: 50vw;
+
+  label {
+    font-weight: bold;
+  }
+
+  #contact-name, #contact-email {
+    width: 25rem;
+  }
+  #contact-topic {
+    width: 40vw;
+  }
+  #message {
+    width: 40vw;
+    height: 8vw;
+  }
+}
