@@ -2,6 +2,7 @@
 from django import http
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -134,6 +135,11 @@ class NewsView(UnderConstructionView):
     pass
 
 
+class LinksView(UnderConstructionView):
+    pass
+
+
+@login_required
 class TestView(LoginRequiredMixin, MarkdownPage):
     pass
 

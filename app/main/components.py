@@ -7,11 +7,13 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 __all__ = (
+    'get_user_model',
+    'get_sentinel_user',
     'TimestampModel',
     'AuthorModel',
     'ActivatedModel',
-    'get_user_model',
-    'get_sentinel_user'
+    'StatusModel',
+    'Status',
 )
 
 
@@ -55,3 +57,29 @@ class ActivatedModel(models.Model):
     class Meta:
         abstract = True
 
+
+class Status(models.IntegerChoices):
+    NOTPUBLISHED = 0, 'Not Published'
+    PENDING = 1, 'Pending Approval'
+    SCHEDULED = 2, 'Scheduled to Publish'
+    PUBLISHED = 9, 'Published'
+
+    @classmethod
+    def value_of(cls, v):
+        for s in cls:
+            if s.value == v:
+                return s
+
+
+class StatusModel(models.Model):
+    status = models.IntegerField('Status', choices=Status.choices, default=Status.NOTPUBLISHED)
+
+    def set_status(self, status: Status, save: bool=True):
+        if self.status == status:
+            raise ValueError(f'{self.__class__.__name__} State is aready "{status.label}"')
+        self.status = status
+        if save:
+            self.save()
+
+    class Meta:
+        abstract = True

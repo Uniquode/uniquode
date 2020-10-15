@@ -11,11 +11,20 @@ from taggit.models import TagBase, CommonGenericTaggedItemBase, TaggedItemBase, 
 from .components import (
     TimestampModel,
     AuthorModel,
-    ActivatedModel
+    ActivatedModel,
+    StatusModel,
 )
 
 
 simple_history.register(get_user_model(), app='main')
+
+
+class Profile(TimestampModel, ActivatedModel):
+    """
+    Extension to user record, (mostly) user editable
+    """
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, primary_key=True)
+
 
 
 class Page(TimestampModel, AuthorModel):
@@ -71,8 +80,8 @@ class Category(models.Model):
         return self.name
 
 
-class Article(TimestampModel, AuthorModel, ActivatedModel):
-    title = models.CharField(_('Title'), max_length=255)
+class Article(TimestampModel, AuthorModel, StatusModel):
+    title = models.TextField(_('Title'))
     slug = models.SlugField(_('Slug'), max_length=64)
     tags = TaggableManager(_('Tags'))
     page = models.OneToOneField(Page, on_delete=models.CASCADE, related_name='articles')

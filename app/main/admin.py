@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from django.utils.timesince import timesince
 from markdownx.admin import MarkdownxModelAdmin
 
-from .models import Page, Message, Article, Icon
+from .models import Page, Message, Article, Icon, Category
 
 
 class CreatedByMixin:
@@ -83,6 +83,13 @@ class IconAdmin(ModelAdmin, TaggedMixin):
 
 
 admin.site.register(Icon, IconAdmin)
+
+
+class CategoryAdmin(ModelAdmin, TaggedMixin):
+    populated_fields = {'slug', ('title',), }
+
+
+admin.site.register(Category, CategoryAdmin)
 
 
 class ArticlesAdmin(CreatedByMixin, ModelAdmin):

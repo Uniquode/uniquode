@@ -13,6 +13,7 @@ urlpatterns = [
     path('logout/', main_views.LogoutView.as_view(), name='signout'),
     path('articles/', main_views.ArticlesView.as_view(), name='articles'),
     path('news/', main_views.NewsView.as_view(), name='news'),
+    path('links/', main_views.LinksView.as_view(), name='news'),
     path('test/', main_views.TestView.as_view(), name='test'),
     path('markdownx/', include('markdownx.urls')),
     path('media/<path:path>', serve, {'document_root':settings.MEDIA_ROOT})
